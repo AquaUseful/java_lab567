@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb:latest
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: lab5
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 8888:80
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
