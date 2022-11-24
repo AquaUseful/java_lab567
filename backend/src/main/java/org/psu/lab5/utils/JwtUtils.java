@@ -48,6 +48,8 @@ public class JwtUtils {
                 .setSubject(user.getUsername())
                 .setExpiration(expiration)
                 .signWith(this.jwtSecret)
+                .claim("roles", user.getRoles())
+                .claim("username", user.getUsername())
                 .compact();
     }
 

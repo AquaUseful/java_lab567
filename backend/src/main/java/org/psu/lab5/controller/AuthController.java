@@ -1,9 +1,12 @@
 package org.psu.lab5.controller;
 
 import javax.security.auth.login.LoginException;
+import javax.validation.Valid;
 
 import org.psu.lab5.pojo.LoginRequest;
 import org.psu.lab5.pojo.LoginResponse;
+import org.psu.lab5.pojo.RegisterRequest;
+import org.psu.lab5.pojo.RegisterResponse;
 import org.psu.lab5.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,11 @@ public class AuthController {
         } catch (LoginException e) {
             return ResponseEntity.ok(e);
         }
+    }
+
+    @PostMapping("register")
+    public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest request) {
+
     }
 
 }

@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserNotFound extends LoginException {
-
-    private String username;
-
+public class ValidationViolation {
+    private String fieldName;
+    private String message;
 }

@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
-import antlr.StringUtils;
 import io.jsonwebtoken.Claims;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
-    private static final String authorisationHeaderName = "Authorisation";
+    private static final String authorisationHeaderName = "Authorization";
 
     @Autowired
     private JwtUtils jwtUtils;
