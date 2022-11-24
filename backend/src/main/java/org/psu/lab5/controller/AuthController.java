@@ -3,6 +3,7 @@ package org.psu.lab5.controller;
 import javax.security.auth.login.LoginException;
 import javax.validation.Valid;
 
+import org.psu.lab5.exception.UserExistsException;
 import org.psu.lab5.exception.UserNotFoundException;
 import org.psu.lab5.exception.WrongPasswordException;
 import org.psu.lab5.pojo.LoginRequest;
@@ -27,16 +28,15 @@ public class AuthController {
     @PostMapping("login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request)
             throws UserNotFoundException, WrongPasswordException {
-        LoginResponse resp = authService.login(request);
+        final LoginResponse resp = authService.login(request);
         return ResponseEntity.ok(resp);
     }
 
-    /*
-     * @PostMapping("register")
-     * public ResponseEntity<RegisterResponse> register(@RequestBody @Valid
-     * RegisterRequest request) {
-     * 
-     * }
-     */
+    @PostMapping("register")
+    public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest request)
+            throws UserExistsException {
+        final RegisterResponse resp = authService.register(request);
+        return ResponseEntity.ok(resp);
+    }
 
 }

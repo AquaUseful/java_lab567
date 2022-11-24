@@ -1,10 +1,14 @@
 package org.psu.lab5.service;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import javax.security.auth.login.LoginException;
 import javax.security.auth.message.AuthException;
 import javax.validation.Valid;
 
 import org.psu.lab5.authentication.JwtAuthentication;
+import org.psu.lab5.exception.UserExistsException;
 import org.psu.lab5.exception.UserNotFoundException;
 import org.psu.lab5.exception.WrongPasswordException;
 import org.psu.lab5.model.User;
@@ -14,6 +18,7 @@ import org.psu.lab5.pojo.RegisterRequest;
 import org.psu.lab5.pojo.RegisterResponse;
 import org.psu.lab5.repository.UserRepository;
 import org.psu.lab5.utils.JwtUtils;
+import org.psu.lab5.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,8 +46,14 @@ public class AuthService {
         }
     }
 
-    public RegisterResponse register(@NonNull @Valid RegisterRequest request) {
-        return new RegisterResponse();
+    public RegisterResponse register(@NonNull @Valid RegisterRequest request) throws UserExistsException {
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new UserExistsException();
+        }
+        final User newUser = new User(0, request.getUsername(), request.getPassword(),
+                Collections.singleton(Role.USER));
+        userRepository.save(newUser);
+        return new RegisterResponse(true, "");
     }
 
     public JwtAuthentication getAuthInfo() {
