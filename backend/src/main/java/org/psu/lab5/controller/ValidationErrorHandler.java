@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ValidationErrorHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponse> methodArgumentNotValidExcetionHandler(
-            MethodArgumentNotValidException exception) {
-        List<ValidationViolation> violations = exception.getBindingResult().getFieldErrors().stream()
-                .map(
-                        error -> new ValidationViolation(
-                                error.getField(),
-                                error.getDefaultMessage()))
-                .collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ValidationErrorResponse(violations));
-    }
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<ValidationErrorResponse> methodArgumentNotValidExcetionHandler(
+                        MethodArgumentNotValidException exception) {
+                List<ValidationViolation> violations = exception.getBindingResult().getFieldErrors().stream()
+                                .map(
+                                                error -> new ValidationViolation(
+                                                                error.getField(),
+                                                                error.getDefaultMessage()))
+                                .collect(Collectors.toList());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(new ValidationErrorResponse(violations));
+        }
 }
