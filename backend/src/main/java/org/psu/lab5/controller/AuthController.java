@@ -12,6 +12,7 @@ import org.psu.lab5.pojo.RegisterRequest;
 import org.psu.lab5.pojo.RegisterResponse;
 import org.psu.lab5.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +37,8 @@ public class AuthController {
     public ResponseEntity<RegisterResponse> register(@RequestBody @Valid RegisterRequest request)
             throws UserExistsException {
         final RegisterResponse resp = authService.register(request);
-        return ResponseEntity.ok(resp);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new RegisterResponse(true, ""));
     }
 
 }
