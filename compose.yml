@@ -6,8 +6,27 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: rootpass
       MARIADB_DATABASE: lab5
+    networks:
+      - backend
+
+  backend:
+    build: ./backend
+    depends_on:
+      - db
     ports:
-      - 3306:3306
+      - 8000:8000
+    networks:
+      - backend
+      - frontend
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - 8080:80
+    networks:
+      - frontend
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -17,3 +36,9 @@ services:
       - db
     environment:
       PMA_HOST: db
+    networks:
+      - backend
+
+networks:
+  backend:
+  frontend:
