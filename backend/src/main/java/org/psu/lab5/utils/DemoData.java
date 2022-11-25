@@ -2,6 +2,8 @@ package org.psu.lab5.utils;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.psu.lab5.model.Role;
 import org.psu.lab5.model.User;
@@ -21,10 +23,22 @@ public class DemoData implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         try {
-            userRepository.save(new User(0,
-                    "admin",
-                    "admin",
-                    Collections.singleton(Role.ADMIN)));
+            userRepository.save(
+                    new User(null,
+                            "admin",
+                            "admin",
+                            "admin@email.com",
+                            Stream.of(Role.ADMIN, Role.USER).collect(Collectors.toSet()),
+                            null,
+                            0));
+            userRepository.save(
+                    new User(null,
+                            "user",
+                            "user",
+                            "user@email.com",
+                            Collections.singleton(Role.USER),
+                            null,
+                            0));
         } catch (DataIntegrityViolationException e) {
 
         }
