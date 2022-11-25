@@ -9,43 +9,50 @@ services:
       MARIADB_PASSWORD: changeme
       MARIADB_DATABASE: lab5
     networks:
-      - backend
+      - database
     volumes:
-      - lab5:/var/lib/mysql
+      - db:/var/lib/mysql
 
   backend:
     build: ./backend
     depends_on:
       - db
-    ports:
-      - 8000:8000
     networks:
-      - backend
-      - frontend
+      - database
+      - proxy
 
   frontend:
     build: ./frontend
     depends_on:
       - backend
-    ports:
-      - 8080:80
     networks:
-      - frontend
+      - proxy
 
-  phpmyadmin:
+  dbadmin:
     image: phpmyadmin:latest
-    ports:
-      - 8888:80
     depends_on:
       - db
+    ports:
+      - 8888:80
     environment:
       PMA_HOST: db
     networks:
+      - database
+
+  proxy:
+    build: ./proxy
+    ports:
+      - 8080:80
+    depends_on:
       - backend
+      - frontend
+      - dbadmin
+    networks:
+      - proxy
 
 networks:
-  backend: {}
-  frontend: {}
+  database: {}
+  proxy: {}
 
 volumes:
-  lab5:
+  db: {}
