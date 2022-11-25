@@ -1,10 +1,7 @@
 package org.psu.lab5.service;
 
-import java.util.Collection;
 import java.util.Collections;
 
-import javax.security.auth.login.LoginException;
-import javax.security.auth.message.AuthException;
 import javax.validation.Valid;
 
 import org.psu.lab5.authentication.JwtAuthentication;
@@ -21,14 +18,12 @@ import org.psu.lab5.utils.JwtUtils;
 import org.psu.lab5.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.NonNull;
 
 @Service
 public class AuthService {
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -50,8 +45,13 @@ public class AuthService {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new UserExistsException();
         }
-        final User newUser = new User(0, request.getUsername(), request.getPassword(),
-                Collections.singleton(Role.USER));
+        final User newUser = new User(null,
+                request.getUsername(),
+                request.getPassword(),
+                request.getEmail(),
+                Collections.singleton(Role.ADMIN),
+                null,
+                0);
         userRepository.save(newUser);
         return new RegisterResponse(true, "");
     }
@@ -59,5 +59,4 @@ public class AuthService {
     public JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
-
 }
