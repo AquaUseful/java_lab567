@@ -5,9 +5,13 @@ services:
     image: mariadb:latest
     environment:
       MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_USER: lab5-backend
+      MARIADB_PASSWORD: changeme
       MARIADB_DATABASE: lab5
     networks:
       - backend
+    volumes:
+      - lab5:/var/lib/mysql
 
   backend:
     build: ./backend
@@ -40,5 +44,8 @@ services:
       - backend
 
 networks:
-  backend:
-  frontend:
+  backend: {}
+  frontend: {}
+
+volumes:
+  lab5:
