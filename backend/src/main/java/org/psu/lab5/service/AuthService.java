@@ -31,8 +31,10 @@ public class AuthService {
 
     public LoginResponse login(@NonNull @Valid LoginRequest request)
             throws UserNotFoundException, WrongPasswordException {
-        final User user = userRepository.getByUsername(request.getUsername())
+        User user = userRepository.getByUsername(request.getUsername())
                 .orElseThrow(() -> new UserNotFoundException());
+        user.setLoginCount(user.getLoginCount() + 1);
+        userRepository.save(user);
         if (user.getPassword().equals(request.getPassword())) {
             final String token = jwtUtils.generate(user);
             return new LoginResponse(token);
