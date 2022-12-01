@@ -1,5 +1,7 @@
 package org.psu.lab5.service;
 
+import java.io.Console;
+
 import org.psu.lab5.authentication.JwtAuthentication;
 import org.psu.lab5.model.BinFile;
 import org.psu.lab5.model.User;
@@ -33,8 +35,8 @@ public class UserService {
         return this.getByUsername(username).getFile() != null;
     }
 
-    public void addAvatar(BinFile avatarFile) {
-
+    public void save(User user) {
+        userRepository.save(user);
     }
 
 }
