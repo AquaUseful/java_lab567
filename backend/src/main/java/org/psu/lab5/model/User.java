@@ -47,6 +47,7 @@ public class User {
 
     @OneToOne(optional = true)
     @JoinColumn(name = "file_id")
+    @JsonIgnore
     private BinFile file;
 
     @Column(nullable = false)
