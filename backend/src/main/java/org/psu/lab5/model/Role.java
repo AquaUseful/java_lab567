@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 public enum Role implements GrantedAuthority {
 
     ADMIN("ADMIN"),
+    EDITOR("EDITOR"),
     USER("USER");
 
     private final String name;
